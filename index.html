@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Kush Agarwal — AI &amp; ML Engineer</title>
+<meta name="description" content="Kush Agarwal — B.Tech AI &amp; ML student at GITAM, open-source contributor to Kornia &amp; Gammapy, builder of LLM-powered agentic systems." />
+
+<!-- Google Fonts: Almarai (global) + Instrument Serif (italic accent) -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet" />
+
+<style>
+/* ============================================================
+   DESIGN TOKENS
+============================================================ */
+:root{
+  --cream: #E1E0CC;
+  --cream-soft: #DEDBC8;
+  --black: #000000;
+  --about-card: #101010;
+  --feature-card: #212121;
+  --nav-link: rgba(225,224,204,0.8);
+  --ease-cine: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-card: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+*{
+  margin:0; padding:0; box-sizing:border-box;
+  font-family:'Almarai', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+}
+html{ scroll-behavior:smooth; }
+body{
+  background:var(--black);
+  color:var(--cream);
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+.serif{ font-family:'Instrument Serif', serif; font-style:italic; }
+a{ text-decoration:none; color:inherit; }
+img{ display:block; max-width:100%; }
+::selection{ background:var(--cream); color:#000; }
+
+/* ============================================================
+   NOISE TEXTURE UTILITIES (SVG feTurbulence)
+============================================================ */
+.noise-overlay{
+  position:absolute; inset:0; pointer-events:none;
+  opacity:0.7; mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.bg-noise{
+  position:absolute; inset:0; pointer-events:none; opacity:0.15;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n2'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n2)'/%3E%3C/svg%3E");
+}
+
+/* ============================================================
+   SECTION 1 — HERO
+============================================================ */
+.hero{ height:100svh; padding:1rem; }
+@media(min-width:768px){ .hero{ padding:1.5rem; } }
+
+.hero-frame{
+  position:relative; width:100%; height:100%;
+  border-radius:1rem; overflow:hidden;
+}
+@media(min-width:768px){ .hero-frame{ border-radius:2rem; } }
+
+.hero-video{
+  position:absolute; inset:0; width:100%; height:100%;
+  object-fit:cover; z-index:0;
+}
+.hero-gradient{
+  position:absolute; inset:0; z-index:2; pointer-events:none;
+  background:linear-gradient(to bottom, rgba(0,0,0,0.30), transparent, rgba(0,0,0,0.60));
+}
+.hero .noise-overlay{ z-index:1; }
+
+/* Navbar pill hanging from top */
+.navbar{
+  position:absolute; top:0; left:50%; transform:translateX(-50%);
+  z-index:10; background:var(--black);
+  border-bottom-left-radius:1rem; border-bottom-right-radius:1rem;
+  padding:0.5rem 1rem;
+  display:flex; align-items:center;
+  gap:0.75rem;
+}
+@media(min-width:640px){ .navbar{ gap:1.5rem; } }
+@media(min-width:768px){
+  .navbar{ gap:3rem; padding:0.5rem 2rem; border-bottom-left-radius:1.5rem; border-bottom-right-radius:1.5rem; }
+}
+@media(min-width:1024px){ .navbar{ gap:3.5rem; } }
+.navbar a{
+  font-size:10px; color:var(--nav-link);
+  transition:color .25s ease; white-space:nowrap; font-weight:400;
+}
+@media(min-width:640px){ .navbar a{ font-size:12px; } }
+@media(min-width:768px){ .navbar a{ font-size:14px; } }
+.navbar a:hover{ color:var(--cream); }
+
+/* Hero bottom content grid */
+.hero-content{
+  position:absolute; bottom:0; left:0; right:0; z-index:5;
+  padding:0 1.25rem 1.25rem;
+  display:grid; grid-template-columns:repeat(12, 1fr);
+  align-items:end; gap:1.5rem;
+}
+@media(min-width:768px){ .hero-content{ padding:0 2.5rem 2.5rem; } }
+
+.hero-heading-wrap{ grid-column:1 / -1; }
+@media(min-width:1024px){ .hero-heading-wrap{ grid-column:1 / span 8; } }
+
+.hero-heading{
+  font-size:26vw; line-height:0.85; letter-spacing:-0.07em;
+  font-weight:500; color:var(--cream); position:relative; display:inline-block;
+}
+@media(min-width:640px){ .hero-heading{ font-size:24vw; } }
+@media(min-width:768px){ .hero-heading{ font-size:22vw; } }
+@media(min-width:1024px){ .hero-heading{ font-size:20vw; } }
+@media(min-width:1280px){ .hero-heading{ font-size:19vw; } }
+.hero-heading .asterisk{
+  position:absolute; top:0.05em; right:-0.32em;
+  font-size:0.31em; font-weight:400;
+}
+
+.hero-right{ grid-column:1 / -1; display:flex; flex-direction:column; gap:1.25rem; }
+@media(min-width:1024px){ .hero-right{ grid-column:9 / span 4; } }
+
+.hero-desc{
+  color:rgba(222,219,200,0.70);
+  font-size:12px; line-height:1.2;
+}
+@media(min-width:640px){ .hero-desc{ font-size:14px; } }
+@media(min-width:768px){ .hero-desc{ font-size:16px; } }
+
+.hero-actions{ display:flex; flex-wrap:wrap; align-items:center; gap:0.75rem; }
+
+.cta{
+  display:inline-flex; align-items:center; gap:0.5rem;
+  background:var(--cream); color:#000; border:none; cursor:pointer;
+  border-radius:9999px; padding:0.4rem 0.4rem 0.4rem 1.25rem;
+  font-weight:700; font-size:14px; width:fit-content;
+  transition:gap .3s var(--ease-cine);
+}
+@media(min-width:640px){ .cta{ font-size:16px; } }
+.cta:hover{ gap:0.75rem; }
+.cta .circle{
+  width:36px; height:36px; border-radius:9999px; background:#000;
+  display:flex; align-items:center; justify-content:center;
+  transition:transform .3s var(--ease-cine);
+}
+@media(min-width:640px){ .cta .circle{ width:40px; height:40px; } }
+.cta:hover .circle{ transform:scale(1.1); }
+.cta .circle svg{ stroke:var(--cream); }
+
+.cta-ghost{
+  display:inline-flex; align-items:center; gap:0.5rem;
+  background:rgba(225,224,204,0.06); color:var(--cream);
+  border:1px solid rgba(225,224,204,0.25); cursor:pointer;
+  border-radius:9999px; padding:0.7rem 1.25rem; font-weight:700; font-size:14px;
+  width:fit-content; transition:gap .3s var(--ease-cine), background .25s ease, border-color .25s ease;
+}
+.cta-ghost:hover{ gap:0.75rem; background:rgba(225,224,204,0.12); border-color:var(--cream-soft); }
+.cta-ghost svg{ stroke:var(--cream); }
+
+/* ============================================================
+   SECTION 2 — ABOUT
+============================================================ */
+.about{ background:var(--black); padding:6rem 1.25rem; }
+@media(min-width:768px){ .about{ padding:8rem 2rem; } }
+.about-card{
+  background:var(--about-card); border-radius:1.5rem;
+  max-width:72rem; margin:0 auto; text-align:center;
+  padding:4rem 1.5rem;
+}
+@media(min-width:768px){ .about-card{ padding:6rem 3rem; } }
+.about-label{
+  color:var(--cream-soft); font-size:10px; letter-spacing:0.18em;
+  text-transform:uppercase; margin-bottom:2rem; font-weight:700;
+}
+@media(min-width:640px){ .about-label{ font-size:12px; } }
+.about-heading{
+  font-size:1.875rem; line-height:0.95; max-width:48rem; margin:0 auto;
+  font-weight:400; color:var(--cream);
+}
+@media(min-width:640px){ .about-heading{ font-size:2.25rem; line-height:0.9; } }
+@media(min-width:768px){ .about-heading{ font-size:3rem; } }
+@media(min-width:1024px){ .about-heading{ font-size:3.75rem; } }
+@media(min-width:1280px){ .about-heading{ font-size:4.5rem; } }
+
+.about-body{
+  color:var(--cream-soft); font-size:12px; line-height:1.7;
+  max-width:46rem; margin:3rem auto 0;
+}
+@media(min-width:640px){ .about-body{ font-size:14px; } }
+@media(min-width:768px){ .about-body{ font-size:16px; } }
+.about-body{ text-align:center; word-spacing:0.04em; }
+.about-body .word{ display:inline-block; white-space:nowrap; }
+.about-body .char{ transition:opacity .1s linear; opacity:0.2; }
+
+/* ============================================================
+   SECTION 3 — FEATURES / WORK
+============================================================ */
+.features{ position:relative; min-height:100vh; background:var(--black); padding:6rem 1.25rem; overflow:hidden; }
+@media(min-width:768px){ .features{ padding:8rem 2rem; } }
+.features-inner{ position:relative; z-index:2; max-width:80rem; margin:0 auto; }
+.features-header{
+  font-size:1.25rem; line-height:1.25; font-weight:400; margin-bottom:3rem; max-width:40rem;
+}
+@media(min-width:640px){ .features-header{ font-size:1.5rem; } }
+@media(min-width:768px){ .features-header{ font-size:1.875rem; } }
+@media(min-width:1024px){ .features-header{ font-size:2.25rem; } }
+.features-header .dim{ color:#6b7280; }
+
+.feature-grid{
+  display:grid; grid-template-columns:1fr; gap:0.75rem;
+}
+@media(min-width:768px){ .feature-grid{ grid-template-columns:repeat(2,1fr); gap:0.5rem; } }
+@media(min-width:1024px){ .feature-grid{ grid-template-columns:repeat(4,1fr); gap:0.5rem; min-height:480px; } }
+
+.fcard{
+  position:relative; border-radius:1.25rem; overflow:hidden;
+  background:var(--feature-card); padding:1.5rem;
+  display:flex; flex-direction:column;
+  opacity:0; transform:scale(0.95);
+  transition:opacity .7s var(--ease-card), transform .7s var(--ease-card);
+  min-height:320px;
+}
+.fcard.in{ opacity:1; transform:scale(1); }
+
+/* video card */
+.fcard-video{ padding:0; }
+.fcard-video video{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:0; }
+.fcard-video .vlabel{
+  position:relative; z-index:2; margin-top:auto; padding:1.5rem;
+  color:var(--cream); font-size:1.125rem; font-weight:700; line-height:1.1;
+}
+.fcard-video .vshade{ position:absolute; inset:0; z-index:1; background:linear-gradient(to top, rgba(0,0,0,0.55), transparent 55%); }
+
+.fcard .ficon{
+  width:40px; height:40px; border-radius:0.6rem; object-fit:cover; margin-bottom:1.25rem;
+}
+@media(min-width:640px){ .fcard .ficon{ width:48px; height:48px; } }
+.fcard .ftitle{ font-size:1.125rem; font-weight:700; color:var(--cream); line-height:1.15; margin-bottom:1.25rem; display:flex; justify-content:space-between; gap:0.5rem; }
+.fcard .ftitle .num{ color:#6b7280; font-size:0.85rem; font-weight:400; }
+.fcard ul{ list-style:none; display:flex; flex-direction:column; gap:0.75rem; }
+.fcard li{ display:flex; gap:0.6rem; align-items:flex-start; font-size:13px; color:#9ca3af; line-height:1.35; }
+.fcard li svg{ flex:0 0 auto; margin-top:2px; stroke:var(--cream-soft); }
+.fcard .learn{
+  margin-top:auto; padding-top:1.5rem; display:inline-flex; align-items:center; gap:0.4rem;
+  color:var(--cream); font-size:13px; font-weight:700; cursor:pointer; transition:gap .3s ease;
+}
+.fcard .learn:hover{ gap:0.7rem; }
+.fcard .learn svg{ transform:rotate(-45deg); stroke:var(--cream); }
+
+/* ============================================================
+   ACHIEVEMENTS / SELECTED WORK
+============================================================ */
+.ach{ background:var(--black); padding:5rem 1.25rem 7rem; }
+@media(min-width:768px){ .ach{ padding:6rem 2rem 9rem; } }
+.ach-inner{ max-width:72rem; margin:0 auto; }
+.ach-top{ margin-bottom:2.5rem; }
+.ach-label{ color:var(--cream-soft); font-size:10px; letter-spacing:0.18em; text-transform:uppercase; font-weight:700; margin-bottom:1rem; }
+@media(min-width:640px){ .ach-label{ font-size:12px; } }
+.ach-title{ font-size:1.5rem; font-weight:400; color:var(--cream); line-height:1.05; }
+@media(min-width:768px){ .ach-title{ font-size:2.25rem; } }
+.ach-title .serif{ color:var(--cream-soft); }
+.ach-sub{ color:#9ca3af; font-size:13px; line-height:1.6; max-width:34rem; margin-top:1rem; }
+@media(min-width:640px){ .ach-sub{ font-size:15px; } }
+
+.ach-grid{ display:grid; grid-template-columns:1fr; gap:0.85rem; }
+@media(min-width:768px){ .ach-grid{ grid-template-columns:repeat(2,1fr); } }
+@media(min-width:1024px){ .ach-grid{ grid-template-columns:repeat(3,1fr); } }
+
+.ach-item{
+  position:relative; background:var(--feature-card);
+  border:1px solid rgba(225,224,204,0.06); border-radius:1.1rem; padding:1.6rem;
+  display:flex; flex-direction:column; min-height:240px;
+  opacity:0; transform:translateY(20px);
+  transition:opacity .6s var(--ease-cine), transform .6s var(--ease-cine), border-color .35s ease, box-shadow .35s ease;
+}
+.ach-item.in{ opacity:1; transform:none; }
+.ach-item.in:hover{ transform:translateY(-5px); border-color:rgba(225,224,204,0.22); box-shadow:0 22px 45px -22px rgba(0,0,0,0.85); }
+
+.ach-item .date{
+  display:inline-block; width:fit-content; color:var(--cream-soft);
+  font-size:10px; letter-spacing:0.12em; text-transform:uppercase; font-weight:700;
+  background:rgba(225,224,204,0.06); border:1px solid rgba(225,224,204,0.10);
+  padding:0.3rem 0.65rem; border-radius:9999px; margin-bottom:0.95rem;
+}
+.ach-item h4{ color:var(--cream); font-size:1.1rem; font-weight:700; margin-bottom:0.5rem; line-height:1.2; }
+.ach-item p{ color:#9ca3af; font-size:13px; line-height:1.55; }
+
+.ach-tags{ display:flex; flex-wrap:wrap; gap:0.4rem; margin:1rem 0 1.1rem; }
+.ach-tag{
+  font-size:11px; font-weight:700; letter-spacing:0.01em; color:var(--cream-soft);
+  background:rgba(225,224,204,0.07); border:1px solid rgba(225,224,204,0.10);
+  padding:0.28rem 0.65rem; border-radius:9999px;
+}
+
+.ach-links{ margin-top:auto; display:flex; flex-wrap:wrap; gap:0.5rem; }
+.ach-link{
+  display:inline-flex; align-items:center; gap:0.4rem; font-size:12.5px; font-weight:700;
+  color:var(--cream); background:rgba(225,224,204,0.06); border:1px solid rgba(225,224,204,0.14);
+  border-radius:9999px; padding:0.45rem 0.9rem;
+  transition:gap .3s var(--ease-cine), background .25s ease, border-color .25s ease;
+}
+.ach-link:hover{ gap:0.65rem; background:rgba(225,224,204,0.12); border-color:var(--cream-soft); }
+.ach-link svg{ stroke:var(--cream); }
+
+/* ============================================================
+   FOOTER
+============================================================ */
+.footer{ background:var(--black); border-top:1px solid rgba(255,255,255,0.07); padding:3rem 1.25rem; }
+.footer-inner{ max-width:72rem; margin:0 auto; display:flex; flex-wrap:wrap; gap:1.5rem; align-items:center; justify-content:space-between; }
+.footer-inner .name{ font-size:1.5rem; font-weight:800; letter-spacing:-0.03em; color:var(--cream); }
+.footer-links{ display:flex; gap:1.5rem; flex-wrap:wrap; align-items:center; }
+.footer-links a{ color:var(--nav-link); font-size:13px; transition:color .2s ease; }
+.footer-links a:hover{ color:var(--cream); }
+.footer-links a.resume{
+  color:var(--cream); font-weight:700; border:1px solid rgba(225,224,204,0.25);
+  border-radius:9999px; padding:0.45rem 1rem; transition:background .2s ease, border-color .2s ease;
+}
+.footer-links a.resume:hover{ background:rgba(225,224,204,0.1); border-color:var(--cream-soft); }
+
+/* ============================================================
+   ANIMATION PRIMITIVES
+============================================================ */
+.pull-word{ display:inline-block; overflow:hidden; vertical-align:top; }
+.pull-word > span{ display:inline-block; transform:translateY(110%); transition:transform .6s var(--ease-cine); }
+.pull-word.in > span{ transform:translateY(0); }
+
+.fade-up{ opacity:0; transform:translateY(20px); transition:opacity .8s var(--ease-cine), transform .8s var(--ease-cine); }
+.fade-up.in{ opacity:1; transform:none; }
+
+@media (prefers-reduced-motion: reduce){
+  *{ animation:none !important; transition:none !important; }
+  .pull-word > span{ transform:none; }
+  .fade-up{ opacity:1; transform:none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="top">
+  <div class="hero-frame">
+    <video class="hero-video" autoplay loop muted playsinline
+      src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260405_170732_8a9ccda6-5cff-4628-b164-059c500a2b41.mp4"></video>
+    <div class="noise-overlay"></div>
+    <div class="hero-gradient"></div>
+
+    <nav class="navbar">
+      <a href="#about">About</a>
+      <a href="#work">Work</a>
+      <a href="#achievements">Achievements</a>
+      <a href="#contact">Contact</a>
+    </nav>
+
+    <div class="hero-content">
+      <div class="hero-heading-wrap">
+        <h1 class="hero-heading" data-pullup data-asterisk>Kush</h1>
+      </div>
+      <div class="hero-right">
+        <p class="hero-desc fade-up" data-delay="500">
+          Kush Agarwal is an AI &amp; ML engineer and open-source contributor — building from
+          first principles in PyTorch and NumPy, and shipping LLM-powered tools that scale for real users.
+        </p>
+        <div class="hero-actions fade-up" data-delay="700">
+          <a href="#contact" class="cta">
+            Get in touch
+            <span class="circle">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </span>
+          </a>
+          <a href="resume.pdf" target="_blank" rel="noopener" class="cta-ghost">
+            Résumé
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ABOUT ============ -->
+<section class="about" id="about">
+  <div class="about-card">
+    <div class="about-label fade-up">AI &amp; Machine Learning</div>
+    <h2 class="about-heading" data-pullup-multi
+      data-segments='[
+        {"text":"I am Kush Agarwal,","class":""},
+        {"text":"an AI &amp; ML engineer.","class":"serif"},
+        {"text":"I build with PyTorch, NumPy and a love for open source.","class":""}
+      ]'></h2>
+    <p class="about-body" data-scrollchars>Over the past year I have contributed to leading scientific libraries — merging a documentation PR into Kornia after navigating its strict CI/CD and review workflows, and earning recognition as an official contributor to the Gammapy v2.1 release, where I delivered a ~500x speedup on irregular geometry cropping through dynamic tensor slicing in NumPy. Beyond research libraries I ship full-stack and LLM-powered products — from agentic support systems with real tool-calling to live data-analysis tools. I study B.Tech Computer Science with an AI &amp; ML specialization at GITAM, Visakhapatnam.</p>
+  </div>
+</section>
+
+<!-- ============ FEATURES / WORK ============ -->
+<section class="features" id="work">
+  <div class="bg-noise"></div>
+  <div class="features-inner">
+    <div class="features-header" data-pullup-multi
+      data-segments='[
+        {"text":"Engineering-grade work for real-world impact.","class":""},
+        {"text":"Built for performance. Powered by curiosity.","class":"dim"}
+      ]'></div>
+
+    <div class="feature-grid">
+      <!-- Card 1: video -->
+      <div class="fcard fcard-video" data-card data-stagger="0">
+        <video autoplay loop muted playsinline
+          src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260406_133058_0504132a-0cf3-4450-a370-8ea3b05c95d4.mp4"></video>
+        <div class="vshade"></div>
+        <div class="vlabel">My open-source canvas.</div>
+      </div>
+
+      <!-- Card 2: Open source -->
+      <div class="fcard" data-card data-stagger="1">
+        <img class="ficon" alt="" src="https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260405_171918_4a5edc79-d78f-4637-ac8b-53c43c220606.png&w=1280&q=85" />
+        <div class="ftitle"><span>Open Source.</span><span class="num">01</span></div>
+        <ul>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Merged a documentation PR into Kornia</li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Official contributor — Gammapy v2.1</li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>~500x speedup via dynamic tensor slicing</li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Navigated strict CI/CD &amp; review flows</li>
+        </ul>
+        <a class="learn" href="https://github.com/kushagarwal2910-lang" target="_blank" rel="noopener">Learn more
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+
+      <!-- Card 3: Projects -->
+      <div class="fcard" data-card data-stagger="2">
+        <img class="ficon" alt="" src="https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260405_171741_ed9845ab-f5b2-4018-8ce7-07cc01823522.png&w=1280&q=85" />
+        <div class="ftitle"><span>Projects.</span><span class="num">02</span></div>
+        <ul>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Agentic support system — live on HF Spaces</li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Word-embedding model in pure PyTorch</li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Analysis-XYZ full-stack tool, live in prod</li>
+        </ul>
+        <a class="learn" href="https://github.com/kushagarwal2910-lang" target="_blank" rel="noopener">Learn more
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+
+      <!-- Card 4: Skills -->
+      <div class="fcard" data-card data-stagger="3">
+        <img class="ficon" alt="" src="https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260405_171809_f56666dc-c099-4778-ad82-9ad4f209567b.png&w=1280&q=85" />
+        <div class="ftitle"><span>Skills.</span><span class="num">03</span></div>
+        <ul>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Languages — Python, C</li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>NumPy, Pandas, Flask, spaCy (NLP)</li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>LangChain, LangGraph — agentic systems</li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Git &amp; GitHub workflows</li>
+        </ul>
+        <a class="learn" href="#contact">Learn more
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ACHIEVEMENTS / SELECTED WORK ============ -->
+<section class="ach" id="achievements">
+  <div class="ach-inner">
+    <div class="ach-top">
+      <div class="ach-label fade-up">Proof of work</div>
+      <h3 class="ach-title">Achievements &amp; <span class="serif">selected work.</span></h3>
+      <p class="ach-sub fade-up">Open-source contributions to scientific libraries and shipped products — each links straight to the PR, repo or live demo.</p>
+    </div>
+    <div class="ach-grid" id="achGrid">
+      <!-- cards injected by JS from the ACHIEVEMENTS array -->
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer" id="contact">
+  <div class="footer-inner">
+    <div class="name">Kush Agarwal</div>
+    <div class="footer-links">
+      <a href="mailto:agarwalkush2407@gmail.com">Email</a>
+      <a href="https://www.linkedin.com/in/kush-agarwal-002333382" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://github.com/kushagarwal2910-lang" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://leetcode.com/u/kushagarwal2907/" target="_blank" rel="noopener">LeetCode</a>
+      <a href="resume.pdf" class="resume" target="_blank" rel="noopener">Résumé ↗</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ============================================================
+   ACHIEVEMENTS DATA
+   To update: edit this array, then redeploy. Whatever is here
+   is what every visitor sees — no per-browser storage.
+============================================================ */
+const ACHIEVEMENTS = [
+  {
+    date: "2026 · Open Source",
+    title: "Official Contributor — Gammapy v2.1",
+    desc: "Optimized core N-dimensional mapping algorithms with dynamic NumPy tensor slicing, delivering a ~500x speedup on irregular geometry cropping. Recognized in the official v2.1 release.",
+    tags: ["NumPy", "Performance", "Open Source"],
+    links: [
+      { label: "View PR", url: "https://github.com/gammapy/gammapy/pull/6428" },
+      { label: "Contributors", url: "https://docs.gammapy.org/2.1/release-notes/v2.1.html#contributors" }
+    ]
+  },
+  {
+    date: "2026 · Open Source",
+    title: "Kornia — Documentation PR Merged",
+    desc: "Authored and merged documentation for ImageSequential and AugmentationSequential, navigating Kornia's strict CI/CD and code-review workflows.",
+    tags: ["Computer Vision", "Open Source", "CI/CD"],
+    links: [
+      { label: "View PR", url: "https://github.com/kornia/kornia/issues/2813" }
+    ]
+  },
+  {
+    date: "Live · 2026",
+    title: "Agentic Chat Support System",
+    desc: "A LangChain-powered agentic support system with real tool-calling, multi-turn memory and dynamic intent routing — deployed live on HuggingFace Spaces.",
+    tags: ["LangChain", "LangGraph", "Agents"],
+    links: [
+      { label: "Live demo", url: "https://huggingface.co/spaces/agarwalkush/Agentic_chat_support_system" }
+    ]
+  },
+  {
+    date: "Live · Production",
+    title: "Analysis-XYZ — Full-Stack Data Tool",
+    desc: "A full-stack data-analysis web tool in Python & JavaScript, architected end-to-end from routing to production deployment and scaling for real users.",
+    tags: ["Full-Stack", "Python", "JavaScript"],
+    links: [
+      { label: "Visit site", url: "https://www.analysisxyz.dev/" }
+    ]
+  },
+  {
+    date: "Project",
+    title: "Word-Embedding Model from Scratch",
+    desc: "Built a word-embedding model in pure PyTorch with no external APIs, trained on the WikiText-103 dataset for first-principles learning.",
+    tags: ["PyTorch", "NLP", "From Scratch"],
+    links: [
+      { label: "View repo", url: "https://github.com/kushagarwal2910-lang/word-embeeding" }
+    ]
+  },
+  {
+    date: "2025 – 2029",
+    title: "B.Tech — Computer Science (AI & ML)",
+    desc: "Pursuing Computer Science with a specialization in Artificial Intelligence & Machine Learning at GITAM, Visakhapatnam.",
+    tags: ["Education", "GITAM"],
+    links: []
+  }
+];
+
+/* ============================================================
+   TEXT ANIMATION: Words pull-up
+============================================================ */
+function splitToPullWords(text){
+  return text.split(' ').map(w =>
+    `<span class="pull-word"><span>${w}&nbsp;</span></span>`
+  ).join('');
+}
+
+function buildPullup(el){
+  const asterisk = el.hasAttribute('data-asterisk');
+  const text = el.textContent.trim();
+  el.innerHTML = splitToPullWords(text);
+  if(asterisk){
+    const last = el.querySelector('.pull-word:last-child > span');
+    if(last) last.innerHTML = last.innerHTML.replace('&nbsp;','') + '<sup class="asterisk">*</sup>';
+  }
+}
+
+function buildPullupMulti(el){
+  const segs = JSON.parse(el.getAttribute('data-segments'));
+  el.style.display = 'block';
+  let html = '';
+  segs.forEach((seg, si) => {
+    const tmp = document.createElement('div'); tmp.innerHTML = seg.text;
+    const words = tmp.textContent.split(' ');
+    words.forEach(w => {
+      html += `<span class="pull-word ${seg.class}"><span>${w}&nbsp;</span></span>`;
+    });
+    if(si < segs.length-1) html += ' ';
+  });
+  el.innerHTML = html;
+}
+
+/* Stagger reveal helper using IntersectionObserver */
+function revealStaggered(el){
+  const words = el.querySelectorAll('.pull-word');
+  words.forEach((w,i)=>{ w.style.transitionDelay = (i*0.06)+'s'; });
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        words.forEach(w=>w.classList.add('in'));
+        io.disconnect();
+      }
+    });
+  }, {threshold:0.2});
+  io.observe(el);
+}
+
+/* ============================================================
+   SCROLL-LINKED CHARACTER OPACITY (About body)
+============================================================ */
+function setupScrollChars(el){
+  const text = el.textContent.trim();
+  el.innerHTML = '';
+  const chars = [];
+  text.split(' ').forEach((word, wi, arr)=>{
+    const wEl = document.createElement('span');
+    wEl.className = 'word';
+    for(const ch of word){
+      const s = document.createElement('span');
+      s.className = 'char';
+      s.textContent = ch;
+      wEl.appendChild(s);
+      chars.push(s);
+    }
+    el.appendChild(wEl);
+    if(wi < arr.length-1){
+      const sp = document.createElement('span');
+      sp.className = 'char';
+      sp.innerHTML = '&nbsp;';
+      el.appendChild(sp);
+      chars.push(sp);
+    }
+  });
+  const total = chars.length;
+  function update(){
+    const rect = el.getBoundingClientRect();
+    const vh = window.innerHeight;
+    const start = vh*0.8, end = vh*0.2;
+    const prog = (start - rect.top) / (start - end + rect.height);
+    const p = Math.max(0, Math.min(1, prog));
+    chars.forEach((c,i)=>{
+      const cp = i/total;
+      const local = (p - (cp-0.1)) / 0.15;
+      c.style.opacity = Math.max(0.2, Math.min(1, local)).toFixed(3);
+    });
+  }
+  let ticking=false;
+  function onScroll(){ if(!ticking){ requestAnimationFrame(()=>{update(); ticking=false;}); ticking=true; } }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  window.addEventListener('resize', onScroll);
+  update();
+}
+
+/* ============================================================
+   FADE-UP + CARD reveal
+============================================================ */
+function setupFadeUps(){
+  document.querySelectorAll('.fade-up').forEach(el=>{
+    const delay = parseInt(el.getAttribute('data-delay')||'0',10);
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){
+          setTimeout(()=>el.classList.add('in'), delay);
+          io.disconnect();
+        }
+      });
+    }, {threshold:0.15});
+    io.observe(el);
+  });
+}
+function setupCards(){
+  document.querySelectorAll('[data-card]').forEach(card=>{
+    const stagger = parseInt(card.getAttribute('data-stagger')||'0',10);
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){
+          setTimeout(()=>card.classList.add('in'), stagger*150);
+          io.disconnect();
+        }
+      });
+    }, {rootMargin:'-100px', threshold:0.05});
+    io.observe(card);
+  });
+}
+
+/* ============================================================
+   ACHIEVEMENTS RENDER (static, from ACHIEVEMENTS array)
+============================================================ */
+function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+const LINK_ARROW = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transform:rotate(-45deg)"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>';
+
+function renderAch(){
+  const grid = document.getElementById('achGrid');
+  grid.innerHTML = '';
+  ACHIEVEMENTS.forEach((a)=>{
+    const item = document.createElement('div');
+    item.className = 'ach-item';
+    const tags = (a.tags||[]).map(t=>`<span class="ach-tag">${escapeHtml(t)}</span>`).join('');
+    const links = (a.links||[]).map(l=>
+      `<a class="ach-link" href="${encodeURI(l.url)}" target="_blank" rel="noopener">${escapeHtml(l.label)} ${LINK_ARROW}</a>`
+    ).join('');
+    item.innerHTML = `
+      <span class="date">${escapeHtml(a.date||'')}</span>
+      <h4>${escapeHtml(a.title||'')}</h4>
+      <p>${escapeHtml(a.desc||'')}</p>
+      ${tags ? `<div class="ach-tags">${tags}</div>` : ''}
+      ${links ? `<div class="ach-links">${links}</div>` : ''}`;
+    grid.appendChild(item);
+  });
+  requestAnimationFrame(()=>{
+    grid.querySelectorAll('.ach-item').forEach((item,i)=>{
+      const io = new IntersectionObserver((entries)=>{
+        entries.forEach(e=>{ if(e.isIntersecting){
+          item.style.transitionDelay = (i%3*0.08)+'s';
+          item.classList.add('in'); io.disconnect();
+        }});
+      }, {threshold:0.1});
+      io.observe(item);
+    });
+  });
+}
+
+/* ============================================================
+   INIT
+============================================================ */
+document.addEventListener('DOMContentLoaded', ()=>{
+  document.querySelectorAll('[data-pullup]').forEach(el=>{ buildPullup(el); revealStaggered(el); });
+  document.querySelectorAll('[data-pullup-multi]').forEach(el=>{ buildPullupMulti(el); revealStaggered(el); });
+  document.querySelectorAll('[data-scrollchars]').forEach(setupScrollChars);
+  setupFadeUps();
+  setupCards();
+  renderAch();
+});
+</script>
+</body>
+</html>
